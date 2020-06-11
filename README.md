@@ -1,0 +1,1 @@
+# ffxiv-craft-settings-node

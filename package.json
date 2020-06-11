@@ -1,0 +1,19 @@
+{
+  "name": "ffxiv-craft-settings-node",
+  "version": "1.0.0",
+  "description": "Settings sync",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "iddqd0",
+  "license": "MIT",
+  "dependencies": {
+    "node-machina-ffxiv": "^2.36.14",
+    "ws": "^7.3.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1"
+  }
+}
