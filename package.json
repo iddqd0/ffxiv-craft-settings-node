@@ -10,6 +10,7 @@
   "author": "iddqd0",
   "license": "MIT",
   "dependencies": {
+    "elevator": "^2.2.3",
     "node-machina-ffxiv": "^2.36.14",
     "ws": "^7.3.0"
   },
