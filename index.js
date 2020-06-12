@@ -1,8 +1,9 @@
 const WebSocket = require('ws');
 const MachinaFFXIV = require('node-machina-ffxiv');
+const _ = require('lodash');
 
 const wss = new WebSocket.Server({"port": 8181});
-const Machina = new MachinaFFXIV({"port": 8182, "definitionsDir": __dirname + "/definitions" });
+const Machina = new MachinaFFXIV({"port": 8182, "definitionsDir": __dirname + "/definitions"});
 
 const crafters = {
     8: "Carpenter", // Carpenter / CPT
@@ -23,7 +24,14 @@ const crafters = {
 
 
 let stats = {};
-let statsBuffer = null;
+let statsBuffer = {
+    className: "Unknown",
+    specialist: false,
+    level: 1,
+    cp: 1,
+    craftsmanship: 0,
+    control: 0
+};
 let lastClass = null;
 
 Machina.start(() => {
@@ -51,21 +59,20 @@ wss.on('error', function (ws, event) {
 
 Machina.on('playerStats', (content) => {
     statsBuffer = {
-        className: "Unknown",
         cp: content.cp,
         craftsmanship: content.craftsmanship,
         control: content.control,
-        level: 1,
-        specialist: false
+        level: 1
     }
 });
 
 Machina.on('playerClassInfo', (content) => {
     if (content.classId && crafters.hasOwnProperty(content.classId) && (!lastClass || content.classId !== lastClass)) {
-        statsBuffer.className = crafters[content.classId];
-        statsBuffer.level = content.syncedLevel;
-        statsBuffer.specialist = content.isSpecialist;
-        stats[content.classId] = statsBuffer;
+        stats[content.classId] = _.merge(statsBuffer, {
+            className: crafters[content.classId],
+            level: content.syncedLevel,
+            specialist: content.isSpecialist
+        });
         lastClass = content.classId;
     }
 });
